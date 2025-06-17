@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface ResponsiveImage {
   mobile: string;
   tablet: string;
@@ -52,4 +54,8 @@ export interface Order {
   grandTotal: number;
 }
 
-export type Display = 'mobile' | 'tablet' | 'desktop';
+export type Display = "mobile" | "tablet" | "desktop";
+
+export type PageComponent = React.FC<{ 
+  params: Promise<{ slug: string }>;
+}>;
