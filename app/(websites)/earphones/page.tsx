@@ -1,8 +1,12 @@
-export default function EarphonesPage() {
+import ProductCategory from '@/components/ui/ProductCategory'
+import React from 'react'
+import data from '@/data/data.json';
+
+const Page = () => {
+  const products = data.filter((product) => product.category === "earphones");
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Earphones</h1>
-      <p className="text-base">Earphones page content goes here.</p>
-    </div>
-  );
+    <ProductCategory category='earphones' products={products} />
+  )
 }
+
+export default Page

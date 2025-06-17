@@ -1,9 +1,12 @@
+import ProductCategory from '@/components/ui/ProductCategory'
 import React from 'react'
+import data from '@/data/data.json';
 
-const page = () => {
+const Page = () => {
+    const products = data.filter((product) => product.category === "speakers");
     return (
-        <div>page</div>
+        <ProductCategory category='speakers' products={products} />
     )
 }
 
-export default page
+export default Page
