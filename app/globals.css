@@ -5,6 +5,18 @@
 }
 
 :root {
+  font-family: 'Manrope', system-ui, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
+
+	color-scheme: light dark;
+	color: rgba(255, 255, 255, 0.87);
+	background-color: #242424;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
     /* Colors */
     --dark-orange: 22, 65%, 57%;
     --faded-orange: 21, 94%, 75%;
@@ -45,7 +57,19 @@
     /* Border Radius */
     --radius: 8px;
   }
+  .subtitle {
+    font-size: 13px;
+    text-transform: uppercase;
+    line-height: 25px;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
   
+  .viewport {
+    max-width: 1110px;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .dark {
     --background: 0, 0%, 6%;
     --foreground: 0, 0%, 100%;
