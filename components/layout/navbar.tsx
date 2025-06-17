@@ -59,7 +59,7 @@ const NavBar = () => {
 				<div className="relative">
 					<CartPopover>
 						<div className="relative cursor-pointer">
-							<ShoppingCart className="stroke-pureWhite" />
+							<ShoppingCart className="stroke-white" />
 							{uniqueItemsCount > 0 && (
 								<span className="absolute -top-2 -right-2 bg-darkOrange text-pureWhite text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
 									{uniqueItemsCount > 99 ? '99+' : uniqueItemsCount}

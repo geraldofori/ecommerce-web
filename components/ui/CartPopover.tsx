@@ -31,8 +31,8 @@ export const CartPopover: React.FC<CartProps> = ({ children }) => {
 					{/* Header */}
 					<div className="flex flex-row justify-between items-center">
 						<div className="flex flex-row items-center uppercase outline-none gap-x-2 text-h6">
-							<h5 className="leading-none text-pureBlack">Cart ({uniqueItemsCount})</h5>
-							<span className="text-pureBlack/50">({totalItems})</span>
+							<h5 className="leading-none text-pureBlack">Cart</h5>
+							<span className="text-pureBlack/50">({uniqueItemsCount})</span>
 						</div>
 						{cart.length > 0 && (
 							<button

@@ -2,32 +2,29 @@
 
 import { CartItem } from "@/types";
 import { useLocalStorage } from "./useLocalStorage";
-
+import { useRouter } from "next/navigation";
 export const useCart = () => {
+  const router = useRouter();
   const [cart, setCart] = useLocalStorage<CartItem[]>("cart", []);
 
-  // Calculate total price
   const totalPrice = cart.reduce((total, item) => {
     return total + item.product.price * item.quantity;
   }, 0);
 
-  // Get total items count (including quantities)
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
 
-  // Get unique items count (number of different products)
   const uniqueItemsCount = cart.length;
 
-  // Remove all items from cart
   const clearCart = () => {
     setCart([]);
+    router.refresh();
   };
 
-  // Remove specific item from cart
   const removeItem = (productId: number) => {
     setCart(cart.filter((item) => item.product.id !== productId));
+    router.refresh();
   };
 
-  // Update item quantity
   const updateQuantity = (productId: number, newQuantity: number) => {
     if (newQuantity <= 0) {
       removeItem(productId);
@@ -43,35 +40,33 @@ export const useCart = () => {
     );
   };
 
-  // Add item to cart
   const addToCart = (item: CartItem) => {
     const existingItem = cart.find(
       (cartItem) => cartItem.product.id === item.product.id
     );
 
     if (existingItem) {
-      // Update quantity if item already exists in cart
       updateQuantity(item.product.id, existingItem.quantity + item.quantity);
     } else {
-      // Add new item to cart
       setCart([...cart, item]);
     }
+    router.refresh();
   };
 
-  // Increase quantity
   const increaseQuantity = (productId: number) => {
     const item = cart.find((item) => item.product.id === productId);
     if (item) {
       updateQuantity(productId, item.quantity + 1);
     }
+    router.refresh();
   };
 
-  // Decrease quantity
   const decreaseQuantity = (productId: number) => {
     const item = cart.find((item) => item.product.id === productId);
     if (item) {
       updateQuantity(productId, item.quantity - 1);
     }
+    router.refresh();
   };
 
   return {
