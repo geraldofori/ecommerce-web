@@ -1,4 +1,3 @@
-import ArrowRight from '@/public/assets/shared/desktop/icon-arrow-right.svg';
 import { Button } from '../common/button';
 const ProductsSection = () => {
 	const Products = [
@@ -44,7 +43,7 @@ const ProductsSection = () => {
 								action="shop"
 							>
 								<img
-									src={ArrowRight}
+									src="/assets/shared/desktop/icon-arrow-right.svg"
 									alt="icon of an arrow pointing right"
 								/>{' '}
 							</Button>
