@@ -62,7 +62,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, category }) => {
             <div className="flex flex-col items-center w-full px-8 lg:flex lg:flex-row lg:items-start gap-x-12 viewport">
               <div className="lg:w-[33.75rem] md:max-w-[680px] md:w-[80%] w-[90%] bg-darkWhite rounded-[8px] overflow-hidden">
                 <img src={product.categoryImage[display]} />
-                <p>{product.categoryImage[display]}</p>
               </div>
               <div className="flex flex-col px-8 gap-y-10">
                 <div
@@ -112,11 +111,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, category }) => {
             <div className="flex flex-col w-full px-8 py-20 viewport gap-y-6">
               <h3 className="uppercase text-h3 text-pureBlack">Features</h3>
               <div className="text-body text-pureBlack/50">
-                {product.features.split('\n').map((paragraph, index) => (
-                  <p key={index} className={index > 0 ? 'mt-6' : ''}>
-                    {paragraph}
-                  </p>
-                ))}
+                <p className="text-body text-pureBlack/50">{product.features}</p>
               </div>
             </div>
           </section>
