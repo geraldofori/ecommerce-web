@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useDisplay } from '@/hooks/useDisplay';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useCart } from '@/hooks/useCart';
 import { Button } from '../common/button';
-import { CartItem, Product, ProductInclude } from '@/types';
+import { Product, ProductInclude } from '@/types';
 import data from '@/data/data.json';
 
 
@@ -17,32 +17,20 @@ interface ProductDetailProps {
 const ProductDetail: React.FC<ProductDetailProps> = ({ slug, category }) => {
   const display = useDisplay();
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   const product = data.find((product) => product.slug === slug) as Product | undefined;
 
-  const [cart, setCart] = useLocalStorage<CartItem[]>('cart', []);
-
-  const addToCart = () => {
+  const handleAddToCart = () => {
     if (!product) return;
 
-    const existingItem = cart.find((item) => item.product.id === product.id);
-    
-    if (existingItem) {
-      // Update quantity if item already exists in cart
-      const updatedCart = cart.map((item) =>
-        item.product.id === product.id
-          ? { ...item, quantity: item.quantity + quantity }
-          : item
-      );
-      setCart(updatedCart);
-    } else {
-      // Add new item to cart
-      const cartItem: CartItem = {
-        product: product,
-        quantity: quantity,
-      };
-      setCart([...cart, cartItem]);
-    }
+    addToCart({
+      product: product,
+      quantity: quantity,
+    });
+
+    // Reset quantity to 1 after adding to cart
+    setQuantity(1);
   };
 
   const increaseQty = () => {
@@ -74,14 +62,17 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, category }) => {
             <div className="flex flex-col items-center w-full px-8 lg:flex lg:flex-row lg:items-start gap-x-12 viewport">
               <div className="lg:w-[33.75rem] md:max-w-[680px] md:w-[80%] w-[90%] bg-darkWhite rounded-[8px] overflow-hidden">
                 <img src={product.categoryImage[display]} />
+                <p>{product.categoryImage[display]}</p>
               </div>
               <div className="flex flex-col px-8 gap-y-10">
                 <div
                   className={`flex flex-col gap-y-8 mx-auto lg:mx-0 pt-6  max-w-[398px] text-center md:text-start items-start lg:items-start md:items-center`}
                 >
-                  <p className="items-start uppercase text-overline text-darkOrange md:text-center text-start">
-                    New Product
-                  </p>
+                  {product.new && (
+                    <p className="items-start uppercase text-overline text-darkOrange md:text-center text-start">
+                      New Product
+                    </p>
+                  )}
                   <h2 className="uppercase text-h2 text-pureBlack text-start md:text-center lg:text-start">
                     {product.name}
                   </h2>
@@ -109,7 +100,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, category }) => {
                   </div>
                   <button
                     className="px-8 py-3 uppercase duration-300 text-body text-pureWhite bg-darkOrange hover:bg-fadedOrange"
-                    onClick={addToCart}
+                    onClick={handleAddToCart}
                   >
                     Add To Cart
                   </button>
@@ -120,7 +111,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, category }) => {
           <section className="flex flex-col w-full bg-pureWhite lg:gap-y-24">
             <div className="flex flex-col w-full px-8 py-20 viewport gap-y-6">
               <h3 className="uppercase text-h3 text-pureBlack">Features</h3>
-              <p className="text-body text-pureBlack/50">{product.features}</p>
+              <div className="text-body text-pureBlack/50">
+                {product.features.split('\n').map((paragraph, index) => (
+                  <p key={index} className={index > 0 ? 'mt-6' : ''}>
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
             </div>
           </section>
           <section className="flex flex-col w-full bg-pureWhite lg:gap-y-24">
@@ -174,7 +171,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, category }) => {
                       </h5>
                       <Button
                         action="See Product"
-                        link={`/${category}/${otherItem.slug}`}
+                        link={`/${data.find(p => p.slug === otherItem.slug)?.category || category}/${otherItem.slug}`}
                         variant="Solid"
                         className="mt-12 text-subtitle text-pureWhite w-fit"
                       ></Button>

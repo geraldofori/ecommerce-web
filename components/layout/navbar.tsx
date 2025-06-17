@@ -3,7 +3,9 @@ import { AlignJustify, ShoppingCart } from 'lucide-react';
 import { useMediaQuery } from 'react-responsive';
 import Link from 'next/link';
 import { CartPopover } from '../ui/CartPopover';
+import { useCart } from '@/hooks/useCart';
 const NavBar = () => {
+	const { totalItems } = useCart();
 	const isDesktop = useMediaQuery({
 		query: '(min-width: 800px)',
 	});
@@ -54,9 +56,16 @@ const NavBar = () => {
 						</Link>
 					</nav>
 				)}
-				<div>
+				<div className="relative">
 					<CartPopover>
-						<ShoppingCart className="stroke-pureWhite" />
+						<div className="relative cursor-pointer">
+							<ShoppingCart className="stroke-pureWhite" />
+							{totalItems > 0 && (
+								<span className="absolute -top-2 -right-2 bg-darkOrange text-pureWhite text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+									{totalItems > 99 ? '99+' : totalItems}
+								</span>
+							)}
+						</div>
 					</CartPopover>
 				</div>
 			</section>
