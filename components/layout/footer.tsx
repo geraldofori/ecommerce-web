@@ -1,6 +1,3 @@
-import facebook from '@/public/assets/shared/desktop/icon-facebook.svg';
-import instagram from '@/public/assets/shared/desktop/icon-instagram.svg';
-import twitter from '@/public/assets/shared/desktop/icon-twitter.svg';
 import Link from 'next/link';
 const Footer = () => {
 	return (
@@ -45,20 +42,20 @@ const Footer = () => {
 					</div>
 					<div className="text-center md:text-start">
 						<p className="text-body text-pureWhite/50 lg:max-w-[540px]">
-							Audiophile is an all in one stop to fulfill your audio needs.
+							{`Audiophile is an all in one stop to fulfill your audio needs.
 							We&apos;re a small team of music lovers and sound specialists who are
 							devoted to helping you get the most out of personal audio. Come
-							and visit our demo facility - we&apos;re open 7 days a week.
+							and visit our demo facility - we&apos;re open 7 days a week.`}
 						</p>
 					</div>
 					<div className="flex flex-col items-center w-full gap-y-8 md:flex md:flex-row md:justify-between">
 						<p className="text-body text-pureWhite/50">
-							Copyright 2021. All Rights Reserved
+							Copyright {new Date().getFullYear()}. All Rights Reserved
 						</p>
 						<div className="flex flex-row w-fit gap-x-3">
-							<img src={facebook} alt="icon of facebook" />
-							<img src={instagram} alt="icon of instagram" />
-							<img src={twitter} alt="icon of twitter" />
+							<img src="/assets/shared/desktop/icon-facebook.svg" alt="icon of facebook" />
+							<img src="/assets/shared/desktop/icon-instagram.svg" alt="icon of instagram" />
+							<img src="/assets/shared/desktop/icon-twitter.svg" alt="icon of twitter" />
 						</div>
 					</div>
 				</div>
