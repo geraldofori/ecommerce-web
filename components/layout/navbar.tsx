@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { CartPopover } from '../ui/CartPopover';
 import { useCart } from '@/hooks/useCart';
 const NavBar = () => {
-	const { totalItems } = useCart();
+	const { uniqueItemsCount } = useCart();
 	const isDesktop = useMediaQuery({
 		query: '(min-width: 800px)',
 	});
@@ -60,9 +60,9 @@ const NavBar = () => {
 					<CartPopover>
 						<div className="relative cursor-pointer">
 							<ShoppingCart className="stroke-pureWhite" />
-							{totalItems > 0 && (
+							{uniqueItemsCount > 0 && (
 								<span className="absolute -top-2 -right-2 bg-darkOrange text-pureWhite text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-									{totalItems > 99 ? '99+' : totalItems}
+									{uniqueItemsCount > 99 ? '99+' : uniqueItemsCount}
 								</span>
 							)}
 						</div>

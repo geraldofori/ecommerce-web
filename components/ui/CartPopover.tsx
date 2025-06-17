@@ -15,6 +15,7 @@ export const CartPopover: React.FC<CartProps> = ({ children }) => {
 		cart,
 		totalPrice,
 		totalItems,
+		uniqueItemsCount,
 		clearCart,
 		removeItem,
 		increaseQuantity,
@@ -30,13 +31,13 @@ export const CartPopover: React.FC<CartProps> = ({ children }) => {
 					{/* Header */}
 					<div className="flex flex-row justify-between items-center">
 						<div className="flex flex-row items-center uppercase outline-none gap-x-2 text-h6">
-							<h4 className="leading-none text-pureBlack">Cart</h4>
+							<h5 className="leading-none text-pureBlack">Cart ({uniqueItemsCount})</h5>
 							<span className="text-pureBlack/50">({totalItems})</span>
 						</div>
 						{cart.length > 0 && (
-							<button 
+							<button
 								onClick={clearCart}
-								className="underline text-body text-pureBlack/50 hover:text-darkOrange transition-colors"
+								className="underline text-body text-pureBlack/50 text-darkOrange transition-colors"
 							>
 								Remove all
 							</button>
@@ -54,8 +55,8 @@ export const CartPopover: React.FC<CartProps> = ({ children }) => {
 								<div key={item.product.id} className="flex items-center gap-4 p-2">
 									{/* Product Image */}
 									<div className="w-16 h-16 bg-darkWhite rounded-lg overflow-hidden flex-shrink-0">
-										<img 
-											src={item.product.categoryImage[display]} 
+										<img
+											src={item.product.categoryImage[display]}
 											alt={item.product.name}
 											className="w-full h-full object-cover"
 										/>
@@ -78,16 +79,16 @@ export const CartPopover: React.FC<CartProps> = ({ children }) => {
 												onClick={() => decreaseQuantity(item.product.id)}
 												className="p-2 hover:bg-pureBlack/10 transition-colors"
 											>
-												<Minus className="w-3 h-3" />
+												<Minus className="w-3 h-3 text-gray-400" />
 											</button>
-											<span className="px-3 text-sm font-bold min-w-[2rem] text-center">
+											<span className="px-3 text-sm font-bold min-w-[2rem] text-center text-black">
 												{item.quantity}
 											</span>
 											<button
 												onClick={() => increaseQuantity(item.product.id)}
 												className="p-2 hover:bg-pureBlack/10 transition-colors"
 											>
-												<Plus className="w-3 h-3" />
+												<Plus className="w-3 h-3 text-gray-400" />
 											</button>
 										</div>
 										<button
@@ -103,7 +104,6 @@ export const CartPopover: React.FC<CartProps> = ({ children }) => {
 						)}
 					</div>
 
-					{/* Total and Checkout */}
 					{cart.length > 0 && (
 						<>
 							<div className="flex justify-between items-center pt-2 border-t border-pureBlack/10">

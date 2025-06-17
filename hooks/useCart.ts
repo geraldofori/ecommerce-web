@@ -1,18 +1,21 @@
-'use client';
+"use client";
 
-import { CartItem } from '@/types';
-import { useLocalStorage } from './useLocalStorage';
+import { CartItem } from "@/types";
+import { useLocalStorage } from "./useLocalStorage";
 
 export const useCart = () => {
-  const [cart, setCart] = useLocalStorage<CartItem[]>('cart', []);
+  const [cart, setCart] = useLocalStorage<CartItem[]>("cart", []);
 
   // Calculate total price
   const totalPrice = cart.reduce((total, item) => {
-    return total + (item.product.price * item.quantity);
+    return total + item.product.price * item.quantity;
   }, 0);
 
-  // Get total items count
+  // Get total items count (including quantities)
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+
+  // Get unique items count (number of different products)
+  const uniqueItemsCount = cart.length;
 
   // Remove all items from cart
   const clearCart = () => {
@@ -21,7 +24,7 @@ export const useCart = () => {
 
   // Remove specific item from cart
   const removeItem = (productId: number) => {
-    setCart(cart.filter(item => item.product.id !== productId));
+    setCart(cart.filter((item) => item.product.id !== productId));
   };
 
   // Update item quantity
@@ -31,17 +34,21 @@ export const useCart = () => {
       return;
     }
 
-    setCart(cart.map(item => 
-      item.product.id === productId 
-        ? { ...item, quantity: newQuantity }
-        : item
-    ));
+    setCart(
+      cart.map((item) =>
+        item.product.id === productId
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    );
   };
 
   // Add item to cart
   const addToCart = (item: CartItem) => {
-    const existingItem = cart.find((cartItem) => cartItem.product.id === item.product.id);
-    
+    const existingItem = cart.find(
+      (cartItem) => cartItem.product.id === item.product.id
+    );
+
     if (existingItem) {
       // Update quantity if item already exists in cart
       updateQuantity(item.product.id, existingItem.quantity + item.quantity);
@@ -53,7 +60,7 @@ export const useCart = () => {
 
   // Increase quantity
   const increaseQuantity = (productId: number) => {
-    const item = cart.find(item => item.product.id === productId);
+    const item = cart.find((item) => item.product.id === productId);
     if (item) {
       updateQuantity(productId, item.quantity + 1);
     }
@@ -61,7 +68,7 @@ export const useCart = () => {
 
   // Decrease quantity
   const decreaseQuantity = (productId: number) => {
-    const item = cart.find(item => item.product.id === productId);
+    const item = cart.find((item) => item.product.id === productId);
     if (item) {
       updateQuantity(productId, item.quantity - 1);
     }
@@ -71,6 +78,7 @@ export const useCart = () => {
     cart,
     totalPrice,
     totalItems,
+    uniqueItemsCount,
     clearCart,
     removeItem,
     updateQuantity,
@@ -79,4 +87,3 @@ export const useCart = () => {
     decreaseQuantity,
   };
 };
-

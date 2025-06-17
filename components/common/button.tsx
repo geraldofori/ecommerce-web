@@ -27,7 +27,7 @@ export const Button: React.FC<ButtonVariants> = ({
 	};
 
 	return (
-		<Link href={link} className={cn(variantOpt[variant], className)}>
+		<Link href={link} className={cn(variantOpt[variant], className, `cursor-pointer`)}>
 			{action}
 			{` `}
 			{children}

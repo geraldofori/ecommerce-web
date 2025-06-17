@@ -90,7 +90,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, category }) => {
                       <Minus className="w-4 h-4 stroke-black" />
                     </button>
                     <div className="px-3 text-center ">
-                      <div className="font-bold tracking-tighter text-md ">
+                      <div className="font-bold tracking-tighter text-md text-black">
                         {quantity}
                       </div>
                     </div>
@@ -99,7 +99,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, category }) => {
                     </button>
                   </div>
                   <button
-                    className="px-8 py-3 uppercase duration-300 text-body text-pureWhite bg-darkOrange hover:bg-fadedOrange"
+                    className="px-8 py-3 uppercase duration-300 text-body text-pureWhite bg-darkOrange hover:bg-fadedOrange cursor-pointer"
                     onClick={handleAddToCart}
                   >
                     Add To Cart
