@@ -29,7 +29,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, category }) => {
       quantity: quantity,
     });
 
-    // Reset quantity to 1 after adding to cart
     setQuantity(1);
   };
 
