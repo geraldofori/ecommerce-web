@@ -27,7 +27,6 @@ export const CartPopover: React.FC<CartProps> = ({ children }) => {
 			<PopoverTrigger asChild>{children}</PopoverTrigger>
 			<PopoverContent className="w-80 bg-pureWhite border border-pureBlack/10 shadow-lg">
 				<div className="grid gap-4">
-					{/* Header */}
 					<div className="flex flex-row justify-between items-center">
 						<div className="flex flex-row items-center uppercase outline-none gap-x-2 text-h6">
 							<h5 className="leading-none text-pureBlack">Cart</h5>
@@ -52,7 +51,6 @@ export const CartPopover: React.FC<CartProps> = ({ children }) => {
 						) : (
 							cart.map((item) => (
 								<div key={item.product.id} className="flex items-center gap-4 p-2">
-									{/* Product Image */}
 									<div className="w-16 h-16 bg-darkWhite rounded-lg overflow-hidden flex-shrink-0">
 										<img
 											src={item.product.categoryImage[display]}
