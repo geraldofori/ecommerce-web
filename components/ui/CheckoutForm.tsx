@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/useCart';
 import { useDisplay } from '@/hooks/useDisplay';
-import { useRouter } from 'next/navigation';
 
 export default function CheckoutForm() {
     const [paymentMethod, setPaymentMethod] = useState('e-Money');
@@ -15,12 +14,12 @@ export default function CheckoutForm() {
     const subtotal = totalPrice;
     const shipping = 50;
     const vat = Math.round(subtotal * 0.2);
-    const grandTotal = subtotal + shipping;
+    const grandTotal = subtotal + shipping + vat;
 
     const handleSubmitOrder = () => {
         alert('Order placed successfully!');
         clearCart();
-        router.push('/'); 
+        router.push('/');
     };
 
     return (
@@ -165,7 +164,7 @@ export default function CheckoutForm() {
                                     </svg>
                                 </div>
                                 <p className="text-body text-pureBlack/70">
-                                    The 'Cash on Delivery' option enables you to pay in cash when our delivery courier arrives at your residence. Just make sure your address is correct so that your order will not be cancelled.
+                                    {`The 'Cash on Delivery' option enables you to pay in cash when our delivery courier arrives at your residence. Just make sure your address is correct so that your order will not be cancelled.`}
                                 </p>
                             </div>
                         )}
@@ -178,7 +177,7 @@ export default function CheckoutForm() {
 
                 {cart.length === 0 ? (
                     <div className="text-center py-8">
-                        <p className="text-muted-foreground">Your cart is empty</p>
+                        <p className="text-pureBlack/50">Your cart is empty</p>
                     </div>
                 ) : (
                     <>
@@ -197,31 +196,31 @@ export default function CheckoutForm() {
                                             <p className="font-bold">
                                                 {item.product.name.split(' ').slice(0, 2).join(' ')}
                                             </p>
-                                            <p className="text-muted-foreground">
+                                            <p className="text-pureBlack/50">
                                                 ${item.product.price.toLocaleString()}
                                             </p>
                                         </div>
                                     </div>
-                                    <p className="text-muted-foreground">x{item.quantity}</p>
+                                    <p className="text-pureBlack/50">x{item.quantity}</p>
                                 </div>
                             ))}
                         </div>
 
                         <div className="flex flex-col gap-y-2 mb-6">
                             <div className="flex justify-between">
-                                <p className="text-muted-foreground uppercase">Total</p>
+                                <p className="text-pureBlack/50 uppercase">Total</p>
                                 <p className="font-bold">${subtotal.toLocaleString()}</p>
                             </div>
                             <div className="flex justify-between">
-                                <p className="text-muted-foreground uppercase">Shipping</p>
+                                <p className="text-pureBlack/50 uppercase">Shipping</p>
                                 <p className="font-bold">${shipping}</p>
                             </div>
                             <div className="flex justify-between">
-                                <p className="text-muted-foreground uppercase">VAT (Included)</p>
+                                <p className="text-pureBlack/50 uppercase">VAT (Included)</p>
                                 <p className="font-bold">${vat.toLocaleString()}</p>
                             </div>
                             <div className="flex justify-between mt-4">
-                                <p className="text-muted-foreground uppercase">Grand Total</p>
+                                <p className="text-pureBlack/50 uppercase">Grand Total</p>
                                 <p className="font-bold text-darkOrange">${grandTotal.toLocaleString()}</p>
                             </div>
                         </div>

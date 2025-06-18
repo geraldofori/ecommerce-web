@@ -14,7 +14,6 @@ export const CartPopover: React.FC<CartProps> = ({ children }) => {
 	const {
 		cart,
 		totalPrice,
-		totalItems,
 		uniqueItemsCount,
 		clearCart,
 		removeItem,

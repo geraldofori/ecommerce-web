@@ -1,11 +1,10 @@
-"use client";
+'use client';
 
-import { CartItem } from "@/types";
-import { useLocalStorage } from "./useLocalStorage";
-import { useRouter } from "next/navigation";
+import { CartItem } from '@/types';
+import { useLocalStorage } from './useLocalStorage';
+
 export const useCart = () => {
-  const router = useRouter();
-  const [cart, setCart] = useLocalStorage<CartItem[]>("cart", []);
+  const [cart, setCart] = useLocalStorage<CartItem[]>('cart', []);
 
   const totalPrice = cart.reduce((total, item) => {
     return total + item.product.price * item.quantity;
@@ -17,12 +16,10 @@ export const useCart = () => {
 
   const clearCart = () => {
     setCart([]);
-    router.refresh();
   };
 
   const removeItem = (productId: number) => {
     setCart(cart.filter((item) => item.product.id !== productId));
-    router.refresh();
   };
 
   const updateQuantity = (productId: number, newQuantity: number) => {
@@ -50,7 +47,6 @@ export const useCart = () => {
     } else {
       setCart([...cart, item]);
     }
-    router.refresh();
   };
 
   const increaseQuantity = (productId: number) => {
@@ -58,7 +54,6 @@ export const useCart = () => {
     if (item) {
       updateQuantity(productId, item.quantity + 1);
     }
-    router.refresh();
   };
 
   const decreaseQuantity = (productId: number) => {
@@ -66,7 +61,6 @@ export const useCart = () => {
     if (item) {
       updateQuantity(productId, item.quantity - 1);
     }
-    router.refresh();
   };
 
   return {
