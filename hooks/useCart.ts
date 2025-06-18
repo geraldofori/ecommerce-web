@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { CartItem } from '@/types';
-import { useLocalStorage } from './useLocalStorage';
+import { CartItem } from "@/types";
+import { useLocalStorage } from "./useLocalStorage";
 
 export const useCart = () => {
-  const [cart, setCart] = useLocalStorage<CartItem[]>('cart', []);
+  const [cart, setCart] = useLocalStorage<CartItem[]>("cart", []);
 
   const totalPrice = cart.reduce((total, item) => {
     return total + item.product.price * item.quantity;
@@ -16,6 +16,7 @@ export const useCart = () => {
 
   const clearCart = () => {
     setCart([]);
+    location.reload();
   };
 
   const removeItem = (productId: number) => {
@@ -47,6 +48,7 @@ export const useCart = () => {
     } else {
       setCart([...cart, item]);
     }
+    location.reload();
   };
 
   const increaseQuantity = (productId: number) => {
