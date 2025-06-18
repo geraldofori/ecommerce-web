@@ -2,20 +2,26 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { useCart } from '@/hooks/useCart';
+import { useDisplay } from '@/hooks/useDisplay';
+import { useRouter } from 'next/navigation';
 
 export default function CheckoutForm() {
     const [paymentMethod, setPaymentMethod] = useState('e-Money');
+    const { cart, totalPrice, clearCart } = useCart();
+    const display = useDisplay();
+    const router = useRouter();
 
-    const cartItems = [
-        { id: 1, name: 'XX99 MKII', price: 2999, quantity: 1, image: '/images/cart/xx99-mkii.png' },
-        { id: 2, name: 'XX59', price: 899, quantity: 2, image: '/images/cart/xx59.png' },
-        { id: 3, name: 'YX1', price: 599, quantity: 1, image: '/images/cart/yx1.png' },
-    ];
-
-    const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const subtotal = totalPrice;
     const shipping = 50;
     const vat = Math.round(subtotal * 0.2);
-    const grandTotal = subtotal + shipping + vat;
+    const grandTotal = subtotal + shipping;
+
+    const handleSubmitOrder = () => {
+        alert('Order placed successfully!');
+        clearCart();
+        router.push('/'); 
+    };
 
     return (
         <div className="flex flex-col lg:flex-row gap-x-4 viewport">
@@ -150,6 +156,19 @@ export default function CheckoutForm() {
                                 </div>
                             </>
                         )}
+
+                        {paymentMethod === 'Cash on Delivery' && (
+                            <div className="md:col-span-2 flex flex-col md:flex-row items-center gap-4 bg-darkWhite/40 p-4 rounded-md">
+                                <div className="w-12 h-12 flex-shrink-0">
+                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M24 0C10.728 0 0 10.728 0 24C0 37.272 10.728 48 24 48C37.272 48 48 37.272 48 24C48 10.728 37.272 0 24 0ZM24 4.8C34.632 4.8 43.2 13.368 43.2 24C43.2 34.632 34.632 43.2 24 43.2C13.368 43.2 4.8 34.632 4.8 24C4.8 13.368 13.368 4.8 24 4.8Z" fill="#D87D4A" />
+                                    </svg>
+                                </div>
+                                <p className="text-body text-pureBlack/70">
+                                    The 'Cash on Delivery' option enables you to pay in cash when our delivery courier arrives at your residence. Just make sure your address is correct so that your order will not be cancelled.
+                                </p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -157,51 +176,65 @@ export default function CheckoutForm() {
             <div className="w-full lg:w-1/3 bg-pureWhite p-6 lg:p-8 rounded-lg h-fit mt-8 lg:mt-0">
                 <h2 className="text-h6 uppercase mb-6">Summary</h2>
 
-                <div className="flex flex-col gap-y-4 mb-6">
-                    {cartItems.map((item) => (
-                        <div key={item.id} className="flex items-center justify-between">
-                            <div className="flex items-center gap-x-4">
-                                <div className="w-16 h-16 bg-darkWhite rounded-md relative overflow-hidden">
-                                    <Image
-                                        src={item.image}
-                                        alt={item.name}
-                                        width={64}
-                                        height={64}
-                                        className="object-contain"
-                                    />
+                {cart.length === 0 ? (
+                    <div className="text-center py-8">
+                        <p className="text-muted-foreground">Your cart is empty</p>
+                    </div>
+                ) : (
+                    <>
+                        <div className="flex flex-col gap-y-4 mb-6">
+                            {cart.map((item) => (
+                                <div key={item.product.id} className="flex items-center justify-between">
+                                    <div className="flex items-center gap-x-4">
+                                        <div className="w-16 h-16 bg-darkWhite rounded-md relative overflow-hidden">
+                                            <img
+                                                src={item.product.categoryImage[display]}
+                                                alt={item.product.name}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                        <div>
+                                            <p className="font-bold">
+                                                {item.product.name.split(' ').slice(0, 2).join(' ')}
+                                            </p>
+                                            <p className="text-muted-foreground">
+                                                ${item.product.price.toLocaleString()}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p className="text-muted-foreground">x{item.quantity}</p>
                                 </div>
-                                <div>
-                                    <p className="font-bold">{item.name}</p>
-                                    <p className="text-muted-foreground">${item.price.toLocaleString()}</p>
-                                </div>
-                            </div>
-                            <p className="text-muted-foreground">x{item.quantity}</p>
+                            ))}
                         </div>
-                    ))}
-                </div>
 
-                <div className="flex flex-col gap-y-2 mb-6">
-                    <div className="flex justify-between">
-                        <p className="text-muted-foreground uppercase">Total</p>
-                        <p className="font-bold">${subtotal.toLocaleString()}</p>
-                    </div>
-                    <div className="flex justify-between">
-                        <p className="text-muted-foreground uppercase">Shipping</p>
-                        <p className="font-bold">${shipping}</p>
-                    </div>
-                    <div className="flex justify-between">
-                        <p className="text-muted-foreground uppercase">VAT (Included)</p>
-                        <p className="font-bold">${vat.toLocaleString()}</p>
-                    </div>
-                    <div className="flex justify-between mt-4">
-                        <p className="text-muted-foreground uppercase">Grand Total</p>
-                        <p className="font-bold text-darkOrange">${grandTotal.toLocaleString()}</p>
-                    </div>
-                </div>
+                        <div className="flex flex-col gap-y-2 mb-6">
+                            <div className="flex justify-between">
+                                <p className="text-muted-foreground uppercase">Total</p>
+                                <p className="font-bold">${subtotal.toLocaleString()}</p>
+                            </div>
+                            <div className="flex justify-between">
+                                <p className="text-muted-foreground uppercase">Shipping</p>
+                                <p className="font-bold">${shipping}</p>
+                            </div>
+                            <div className="flex justify-between">
+                                <p className="text-muted-foreground uppercase">VAT (Included)</p>
+                                <p className="font-bold">${vat.toLocaleString()}</p>
+                            </div>
+                            <div className="flex justify-between mt-4">
+                                <p className="text-muted-foreground uppercase">Grand Total</p>
+                                <p className="font-bold text-darkOrange">${grandTotal.toLocaleString()}</p>
+                            </div>
+                        </div>
 
-                <button className="w-full bg-darkOrange hover:bg-fadedOrange duration-300 text-pureWhite py-3 uppercase font-bold">
-                    Continue & Pay
-                </button>
+                        <button
+                            className="w-full bg-darkOrange hover:bg-fadedOrange duration-300 text-pureWhite py-3 uppercase font-bold"
+                            onClick={handleSubmitOrder}
+                            disabled={cart.length === 0}
+                        >
+                            Continue & Pay
+                        </button>
+                    </>
+                )}
             </div>
         </div>
     );
