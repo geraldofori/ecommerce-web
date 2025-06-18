@@ -112,9 +112,9 @@ export const CartPopover: React.FC<CartProps> = ({ children }) => {
 									${totalPrice.toLocaleString()}
 								</span>
 							</div>
-							<button className="w-full px-8 py-3 uppercase duration-300 text-body text-pureWhite bg-darkOrange hover:bg-fadedOrange transition-colors">
+							<a href='/checkout' className="w-full px-8 py-3 uppercase duration-300 text-body text-pureWhite bg-darkOrange hover:bg-fadedOrange transition-colors">
 								Checkout
-							</button>
+							</a>
 						</>
 					)}
 				</div>
